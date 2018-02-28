@@ -1,0 +1,8 @@
+/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/obj/x86/Debug/MatrixCode.csproj.CoreCompileInputs.cache
+/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/bin/Debug/MatrixCode.exe
+/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/bin/Debug/MatrixCode.pdb
+/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/obj/x86/Debug/MatrixCode.exe
+/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/obj/x86/Debug/MatrixCode.pdb
+/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/bin/Debug/nunit.framework.dll
+/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/bin/Debug/nunit.framework.xml
+/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/obj/x86/Debug/MatrixCode.csprojResolveAssemblyReference.cache
