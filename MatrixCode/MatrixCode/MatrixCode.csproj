@@ -40,7 +40,8 @@
     <Compile Include="MatrixCodeInterface.cs" />
     <Compile Include="MatrixCode.cs" />
     <Compile Include="MatrixElement.cs" />
-    <Compile Include="InsertTests.cs" />
+    <Compile Include="InsertMethodTests.cs" />
+    <Compile Include="DeleteMethodTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

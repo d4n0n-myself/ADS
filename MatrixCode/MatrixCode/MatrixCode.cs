@@ -42,21 +42,24 @@ namespace MatrixCode
 
         public void Delete(int i, int j)
         {
-            int line = 0;
-            int column = 0;
             MatrixElement execElement = First;
 
-            while (line != i)
+            for (int line = 0; line < i; line++)
                 execElement = execElement.NextLineItem;
-            while (column != j - 1)
+            for (int column = 0; column < j; column++)
                 execElement = execElement.NextItem;
-
+            
             execElement.Value = 0;
         }
 
         public int DiagSum()
         {
-            throw new NotImplementedException();
+            int sum = 0;
+
+            foreach (var e in this)
+                if (e.Line == e.Column) sum += e.Value;
+            
+            return sum;
         }
 
         public void Insert(int i, int j, int value)
@@ -71,14 +74,16 @@ namespace MatrixCode
             }
 
             var tempElement = First;
-
-            //while (tempElement.Line < i)
-            //    tempElement = tempElement.NextLineItem;
-            //while (tempElement.Column < j - 1)
-                //tempElement = tempElement.NextItem;
-
+            var previousLineElement = First;
             while (tempElement.Line * Capacity + tempElement.Column < i * Capacity + j - 1)
+            {
+                if (i > 0 && tempElement.Column == 0)
+                {
+                    previousLineElement.NextLineItem = tempElement;
+                    previousLineElement = tempElement;
+                }
                 tempElement = tempElement.NextItem;
+            }
 
             if (tempElement.NextItem == null)
                 tempElement.NextItem = new MatrixElement(i, j, value);
@@ -113,6 +118,16 @@ namespace MatrixCode
             }
 
             return true;
+        }
+
+        public IEnumerator<MatrixElement> GetEnumerator()
+        {
+            int i = 0; int j = 0;
+            var element = First;
+            while (i * Capacity + j < Capacity * Capacity - 1)
+            {
+                yield return element; element = element.NextItem;
+            }
         }
     }
 }
