@@ -5,34 +5,34 @@ namespace MatrixTask
 {
     public class Matrix : IMatrix
     {
-        MatrixElement First { get; set; }
-        public int Capacity { get; private set; }
+        private MatrixElement _first;
+        private readonly int _size;
 
         public Matrix(int[][] matrix)
         {
             if (matrix != null)
-                Capacity = Math.Max(matrix.Length, matrix[0].Length);
+                _size = Math.Max(matrix.Length, matrix[0].Length);
 
             for (int i = 0; i < matrix.Length; i++)
                 for (int j = 0; j < matrix[i].Length; j++)
-                    InsertNewElement(i, j, matrix[i][j]);
+                    Insert(i, j, matrix[i][j]);
         }
 
-        public void GetTwoColumnsSum(int j1, int j2)
+        public void GetTwoColumnsSum(int column1, int column2)
         {
             throw new NotImplementedException();
         }
 
-        public int[][] DecodeToOriginalMatrix()
+        public int[][] GetMatrix()
         {
-            int[][] originalMatrix = new int[Capacity][];
-            var execElement = First;
+            int[][] originalMatrix = new int[_size][];
+            var execElement = _first;
 
-            for (int i = 0; i < Capacity; i++)
-                for (int j = 0; j < Capacity; j++)
+            for (int i = 0; i < _size; i++)
+                for (int j = 0; j < _size; j++)
                 {
                     if (originalMatrix[i] == null)
-                        originalMatrix[i] = new int[Capacity];
+                        originalMatrix[i] = new int[_size];
                     originalMatrix[i][j] = execElement.Value;
                     execElement = execElement.NextItem;
                 }
@@ -40,13 +40,13 @@ namespace MatrixTask
             return originalMatrix;
         }
 
-        public void DeleteElementFromMatrix(int i, int j)
+        public void Delete(int lineIndex, int columnIndex)
         {
-            MatrixElement execElement = First;
+            MatrixElement execElement = _first;
 
-            for (int line = 0; line < i; line++)
+            for (int line = 0; line < lineIndex; line++)
                 execElement = execElement.NextLineItem;
-            for (int column = 0; column < j; column++)
+            for (int column = 0; column < columnIndex; column++)
                 execElement = execElement.NextItem;
 
             execElement.Value = 0;
@@ -59,7 +59,7 @@ namespace MatrixTask
             foreach (var e in this)
             {
                 if (e == null) break;
-                if (e.Line == e.Column || e.Line + e.Column == Capacity - 1)
+                if (e.Line == e.Column || e.Line + e.Column == _size - 1)
                     sum += e.Value;
             }
 
@@ -68,24 +68,24 @@ namespace MatrixTask
 
         public MatrixElement previousLineElement;
 
-        public void InsertNewElement(int i, int j, int value)
+        public void Insert(int lineIndex, int columnIndex, int value)
         {
-            if (i > Capacity || j > Capacity) throw new InvalidOperationException("Element out of matrix range");
+            if (lineIndex > _size || columnIndex > _size) throw new InvalidOperationException("Element out of matrix range");
 
-            if (First == null)
+            if (_first == null)
             {
-                var startElement = new MatrixElement(i, j, value);
-                previousLineElement = First = startElement;
+                var startElement = new MatrixElement(lineIndex, columnIndex, value);
+                previousLineElement = _first = startElement;
                 return;
             }
 
-            var tempElement = First;
-            while (tempElement.Line * Capacity + tempElement.Column < i * Capacity + j - 1)
+            var tempElement = _first;
+            while (tempElement.Line * _size + tempElement.Column < lineIndex * _size + columnIndex - 1)
                 tempElement = tempElement.NextItem;
 
             if (tempElement.NextItem == null)
             { 
-                tempElement.NextItem = new MatrixElement(i, j, value); 
+                tempElement.NextItem = new MatrixElement(lineIndex, columnIndex, value); 
                 if (tempElement.Line > 0 && tempElement.Column == 0)
                 {
                     if (tempElement.NextLineItem == null)
@@ -97,12 +97,12 @@ namespace MatrixTask
                 tempElement.NextItem.Value = value;
         }
 
-        public List<int> GetColumnMinList()
+        public List<int> GetListOfMinimaInColumns()
         {
             throw new NotImplementedException();
         }
 
-        public void TransposeMatrix()
+        public void Transpose()
         {
             throw new NotImplementedException();
         }
@@ -111,9 +111,9 @@ namespace MatrixTask
         {
             var expected = obj as Matrix;
 
-            var execOriginalElem = First;
-            var execExpectedElem = expected.First;
-            var operationsCount = Capacity * Capacity;
+            var execOriginalElem = _first;
+            var execExpectedElem = expected._first;
+            var operationsCount = _size * _size;
 
             for (int i = 0; i < operationsCount; i++)
             {
@@ -129,8 +129,8 @@ namespace MatrixTask
         public IEnumerator<MatrixElement> GetEnumerator()
         {
             int i = 0; int j = 0;
-            var element = First;
-            while (i * Capacity + j < Capacity * Capacity - 1)
+            var element = _first;
+            while (i * _size + j < _size * _size - 1)
             {
                 yield return element;
                 element = element.NextItem;
