@@ -18,7 +18,6 @@
         }
 
         public MatrixElement NextItem { get; set; }
-        public MatrixElement NextLineItem { get; set; }
         public int Line { get; private set; }
         public int Column { get; private set; }
         public int Value { get; set; }
