@@ -26,7 +26,7 @@ namespace MatrixTask
 
         private bool GetNewAnswer(Matrix original, int i, int j, int value, Matrix expected)
         {
-            original.InsertNewElement(i, j, value);
+            original.Insert(i, j, value);
             return original.Equals(expected);
         }
     }

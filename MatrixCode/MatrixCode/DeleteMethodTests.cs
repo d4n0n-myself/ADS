@@ -35,7 +35,7 @@ namespace MatrixTask
 
         private bool GetNewAnswer(Matrix original, int i, int j, Matrix expected)
         {
-            original.DeleteElementFromMatrix(i,j);
+            original.Delete(i,j);
             return original.Equals(expected);
         }
     }

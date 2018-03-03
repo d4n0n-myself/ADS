@@ -11,7 +11,7 @@ namespace MatrixTask
         
             Matrix matrix = new Matrix(origMatrix);
 
-            matrix.InsertNewElement(1, 2, 3);
+            matrix.Insert(1, 2, 3);
         }
     }
 }

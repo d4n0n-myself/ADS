@@ -26,7 +26,7 @@ namespace MatrixTask
 
         private bool GetNewAnswer(Matrix matrix,int[][] expected)
         {
-            var actualMatrix = matrix.DecodeToOriginalMatrix();
+            var actualMatrix = matrix.GetMatrix();
 
             for (int i = 0; i < actualMatrix.Length;i++)
                 for (int j = 0; j < actualMatrix[0].Length;j++)
