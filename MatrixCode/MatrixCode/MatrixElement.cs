@@ -1,4 +1,4 @@
-﻿namespace MatrixCode
+﻿namespace MatrixTask
 {
     public class MatrixElement
     {

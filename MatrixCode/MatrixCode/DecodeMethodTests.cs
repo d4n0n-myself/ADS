@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 
-namespace MatrixCode
+namespace MatrixTask
 {
     [TestFixture()]
     public class DecodeMethodTests
@@ -26,7 +26,7 @@ namespace MatrixCode
 
         private bool GetNewAnswer(Matrix matrix,int[][] expected)
         {
-            var actualMatrix = matrix.Decode();
+            var actualMatrix = matrix.DecodeToOriginalMatrix();
 
             for (int i = 0; i < actualMatrix.Length;i++)
                 for (int j = 0; j < actualMatrix[0].Length;j++)

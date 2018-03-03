@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 
-namespace MatrixCode
+namespace MatrixTask
 {
     [TestFixture()]
     public class DeleteMethodTests
@@ -35,7 +35,7 @@ namespace MatrixCode
 
         private bool GetNewAnswer(Matrix original, int i, int j, Matrix expected)
         {
-            original.Delete(i,j);
+            original.DeleteElementFromMatrix(i,j);
             return original.Equals(expected);
         }
     }
