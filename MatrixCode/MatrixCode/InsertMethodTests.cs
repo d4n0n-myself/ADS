@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 
-namespace MatrixCode
+namespace MatrixTask
 {
     [TestFixture()]
     public class InsertMethodTests
@@ -26,7 +26,7 @@ namespace MatrixCode
 
         private bool GetNewAnswer(Matrix original, int i, int j, int value, Matrix expected)
         {
-            original.Insert(i, j, value);
+            original.InsertNewElement(i, j, value);
             return original.Equals(expected);
         }
     }

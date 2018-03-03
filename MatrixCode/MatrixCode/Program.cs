@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MatrixCode
+namespace MatrixTask
 {
     class MainClass
     {
@@ -11,7 +11,7 @@ namespace MatrixCode
         
             Matrix matrix = new Matrix(origMatrix);
 
-            matrix.Insert(1, 2, 3);
+            matrix.InsertNewElement(1, 2, 3);
         }
     }
 }

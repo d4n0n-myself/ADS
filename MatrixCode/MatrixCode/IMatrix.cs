@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 
-namespace MatrixCode
+namespace MatrixTask
 {
     public interface IMatrix
     {
-        int[][] Decode();
-        void Insert(int i, int j, int value);
-        void Delete(int i, int j);
-        List<int> MinList();
-        int DiagSum();
-        void Transp();
-        void ColsSum(int j1, int j2);
+        int[][] DecodeToOriginalMatrix();
+        void InsertNewElement(int i, int j, int value);
+        void DeleteElementFromMatrix(int i, int j);
+        List<int> GetColumnMinList();
+        int GetDiagonalElementsSum();
+        void TransposeMatrix();
+        void GetTwoColumnsSum(int j1, int j2);
     }
 }

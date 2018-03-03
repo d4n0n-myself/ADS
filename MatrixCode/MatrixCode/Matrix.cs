@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MatrixCode
+namespace MatrixTask
 {
     public class Matrix : IMatrix
     {
-        public MatrixElement First { get; private set; }
+        MatrixElement First { get; set; }
         public int Capacity { get; private set; }
 
         public Matrix(int[][] matrix)
@@ -15,15 +15,15 @@ namespace MatrixCode
 
             for (int i = 0; i < matrix.Length; i++)
                 for (int j = 0; j < matrix[i].Length; j++)
-                    Insert(i, j, matrix[i][j]);
+                    InsertNewElement(i, j, matrix[i][j]);
         }
 
-        public void ColsSum(int j1, int j2)
+        public void GetTwoColumnsSum(int j1, int j2)
         {
             throw new NotImplementedException();
         }
 
-        public int[][] Decode()
+        public int[][] DecodeToOriginalMatrix()
         {
             int[][] originalMatrix = new int[Capacity][];
             var execElement = First;
@@ -40,7 +40,7 @@ namespace MatrixCode
             return originalMatrix;
         }
 
-        public void Delete(int i, int j)
+        public void DeleteElementFromMatrix(int i, int j)
         {
             MatrixElement execElement = First;
 
@@ -52,7 +52,7 @@ namespace MatrixCode
             execElement.Value = 0;
         }
 
-        public int DiagSum()
+        public int GetDiagonalElementsSum()
         {
             int sum = 0;
 
@@ -68,7 +68,7 @@ namespace MatrixCode
 
         public MatrixElement previousLineElement;
 
-        public void Insert(int i, int j, int value)
+        public void InsertNewElement(int i, int j, int value)
         {
             if (i > Capacity || j > Capacity) throw new InvalidOperationException("Element out of matrix range");
 
@@ -97,12 +97,12 @@ namespace MatrixCode
                 tempElement.NextItem.Value = value;
         }
 
-        public List<int> MinList()
+        public List<int> GetColumnMinList()
         {
             throw new NotImplementedException();
         }
 
-        public void Transp()
+        public void TransposeMatrix()
         {
             throw new NotImplementedException();
         }
