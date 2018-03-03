@@ -2,7 +2,7 @@
 
 namespace MatrixCode
 {
-    public interface MatrixCodeInterface
+    public interface IMatrix
     {
         int[][] Decode();
         void Insert(int i, int j, int value);

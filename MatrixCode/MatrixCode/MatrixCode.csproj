@@ -37,8 +37,8 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MatrixCodeInterface.cs" />
-    <Compile Include="MatrixCode.cs" />
+    <Compile Include="IMatrix.cs" />
+    <Compile Include="Matrix.cs" />
     <Compile Include="MatrixElement.cs" />
     <Compile Include="InsertMethodTests.cs" />
     <Compile Include="DeleteMethodTests.cs" />

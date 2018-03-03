@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+
 namespace MatrixCode
 {
     [TestFixture()]
@@ -8,8 +9,8 @@ namespace MatrixCode
         [Test()]
         public void StandardCase()
         {
-            MatrixCode original = new MatrixCode(new int[3][] { new int[] { 1, 0, 0 }, new int[3], new int[3] });
-            MatrixCode expected = new MatrixCode(new int[3][] { new int[] { 1, 0, 4 }, new int[3], new int[3] });
+            Matrix original = new Matrix(new int[3][] { new int[] { 1, 0, 0 }, new int[3], new int[3] });
+            Matrix expected = new Matrix(new int[3][] { new int[] { 1, 0, 4 }, new int[3], new int[3] });
             bool answer = GetNewAnswer(original, 0, 2, 4, expected);
             Assert.AreEqual(true, answer);
         }
@@ -17,13 +18,13 @@ namespace MatrixCode
         [Test]
         public void SecondLineElementCheckCase()
         {
-            MatrixCode original = new MatrixCode(new int[3][] { new int[3], new int[3], new int[3] });
-            MatrixCode expected = new MatrixCode(new int[3][] { new int[3], new int[] { 0, 1, 0 }, new int[3] });
+            Matrix original = new Matrix(new int[3][] { new int[3], new int[3], new int[3] });
+            Matrix expected = new Matrix(new int[3][] { new int[3], new int[] { 0, 1, 0 }, new int[3] });
             bool answer = GetNewAnswer(original, 1, 1, 1, expected);
             Assert.AreEqual(true,answer);
         }
 
-        private bool GetNewAnswer(MatrixCode original, int i, int j, int value, MatrixCode expected)
+        private bool GetNewAnswer(Matrix original, int i, int j, int value, Matrix expected)
         {
             original.Insert(i, j, value);
             return original.Equals(expected);

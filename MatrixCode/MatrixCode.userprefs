@@ -1,9 +1,16 @@
 ﻿<Properties StartupConfiguration="{88EE173E-5D31-4C73-8F11-34897598384F}|Default">
   <MonoDevelop.Ide.ItemProperties.MatrixCode PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MatrixCode/DeleteMethodTests.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MatrixCode/Program.cs">
     <Files>
-      <File FileName="MatrixCode/MatrixCode.cs" Line="147" Column="2" />
-      <File FileName="MatrixCode/DeleteMethodTests.cs" Line="32" Column="1" />
+      <File FileName="MatrixCode/Matrix.cs" Line="4" Column="21" />
+      <File FileName="MatrixCode/InsertMethodTests.cs" Line="8" Column="6" />
+      <File FileName="MatrixCode/DecodeMethodTests.cs" Line="3" Column="1" />
+      <File FileName="MatrixCode/DeleteMethodTests.cs" Line="3" Column="1" />
+      <File FileName="MatrixCode/DiagSumMethodTests.cs" Line="3" Column="21" />
+      <File FileName="MatrixCode/IMatrix.cs" Line="5" Column="29" />
+      <File FileName="MatrixCode/MatrixElement.cs" Line="18" Column="1" />
+      <File FileName="MatrixCode/packages.config" Line="1" Column="1" />
+      <File FileName="MatrixCode/Program.cs" Line="12" Column="1" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
@@ -13,7 +20,7 @@
               <Node name="MatrixCode" expanded="True">
                 <Node name="DecodeMethodTests" expanded="True" />
                 <Node name="DeleteMethodTests" expanded="True">
-                  <Node name="CheckDeleteMethod_ToFirstElementInSecondLine_InMatrixBy2" selected="True" />
+                  <Node name="CheckDeleteMethod_ToElementInSecondLine_InMatrixBy3" selected="True" />
                 </Node>
                 <Node name="DiagSumMethodTests" expanded="True" />
                 <Node name="InsertMethodTests" expanded="True" />
@@ -31,12 +38,13 @@
       <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/Program.cs" relfile="MatrixCode/Program.cs" line="12" column="1" />
       <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/InsertTests.cs" relfile="MatrixCode/InsertTests.cs" line="33" column="1" />
       <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/InsertTests.cs" relfile="MatrixCode/InsertTests.cs" line="11" column="1" />
-      <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/DeleteMethodTests.cs" relfile="MatrixCode/DeleteMethodTests.cs" line="20" column="1" />
       <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/DiagSumMethodTests.cs" relfile="MatrixCode/DiagSumMethodTests.cs" line="17" column="1" />
-      <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/MatrixCode.cs" relfile="MatrixCode/MatrixCode.cs" line="63" column="1" />
-      <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/DecodeMethodTests.cs" relfile="MatrixCode/DecodeMethodTests.cs" line="34" column="1" />
-      <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/MatrixCode.cs" relfile="MatrixCode/MatrixCode.cs" line="29" column="18" />
-      <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/DeleteMethodTests.cs" relfile="MatrixCode/DeleteMethodTests.cs" line="29" column="1" />
+      <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/DecodeMethodTests.cs" relfile="MatrixCode/DecodeMethodTests.cs" line="35" column="1" />
+      <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/InsertMethodTests.cs" relfile="MatrixCode/InsertMethodTests.cs" line="12" column="1" />
+      <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/DeleteMethodTests.cs" relfile="MatrixCode/DeleteMethodTests.cs" line="30" column="30" />
+      <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/DeleteMethodTests.cs" relfile="MatrixCode/DeleteMethodTests.cs" line="21" column="1" />
+      <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/DeleteMethodTests.cs" relfile="MatrixCode/DeleteMethodTests.cs" line="38" column="1" />
+      <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/MatrixCode.cs" relfile="MatrixCode/MatrixCode.cs" line="91" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

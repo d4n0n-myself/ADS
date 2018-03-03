@@ -3,13 +3,12 @@ using System.Collections.Generic;
 
 namespace MatrixCode
 {
-    public class MatrixCode : MatrixCodeInterface
+    public class Matrix : IMatrix
     {
         public MatrixElement First { get; private set; }
-        public MatrixElement Last { get; private set; }
         public int Capacity { get; private set; }
 
-        public MatrixCode(int[][] matrix)
+        public Matrix(int[][] matrix)
         {
             if (matrix != null)
                 Capacity = Math.Max(matrix.Length, matrix[0].Length);
@@ -51,8 +50,6 @@ namespace MatrixCode
                 execElement = execElement.NextItem;
 
             execElement.Value = 0;
-
-
         }
 
         public int DiagSum()
@@ -69,6 +66,8 @@ namespace MatrixCode
             return sum;
         }
 
+        public MatrixElement previousLineElement;
+
         public void Insert(int i, int j, int value)
         {
             if (i > Capacity || j > Capacity) throw new InvalidOperationException("Element out of matrix range");
@@ -76,24 +75,24 @@ namespace MatrixCode
             if (First == null)
             {
                 var startElement = new MatrixElement(i, j, value);
-                First = Last = startElement;
+                previousLineElement = First = startElement;
                 return;
             }
 
             var tempElement = First;
-            var previousLineElement = First;
-            while (tempElement.Line * Capacity + tempElement.Column < i * Capacity + j)
-            {
-                if (i > 0 && tempElement.Column == 0 && tempElement.NextLineItem==null)
-                {
-                    previousLineElement.NextLineItem = tempElement;
-                    previousLineElement = tempElement;
-                }
+            while (tempElement.Line * Capacity + tempElement.Column < i * Capacity + j - 1)
                 tempElement = tempElement.NextItem;
-            }
 
             if (tempElement.NextItem == null)
-                tempElement.NextItem = new MatrixElement(i, j, value);
+            { 
+                tempElement.NextItem = new MatrixElement(i, j, value); 
+                if (tempElement.Line > 0 && tempElement.Column == 0)
+                {
+                    if (tempElement.NextLineItem == null)
+                        previousLineElement.NextLineItem = tempElement;
+                    previousLineElement = tempElement;
+                }
+            }
             else
                 tempElement.NextItem.Value = value;
         }
@@ -110,7 +109,7 @@ namespace MatrixCode
 
         public override bool Equals(object obj)
         {
-            var expected = obj as MatrixCode;
+            var expected = obj as Matrix;
 
             var execOriginalElem = First;
             var execExpectedElem = expected.First;
@@ -138,7 +137,7 @@ namespace MatrixCode
             }
         }
 
-        public MatrixCode this[int index]
+        public Matrix this[int index]
         {
             get
             {
