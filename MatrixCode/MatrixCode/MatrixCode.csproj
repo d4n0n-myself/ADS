@@ -42,6 +42,8 @@
     <Compile Include="MatrixElement.cs" />
     <Compile Include="InsertMethodTests.cs" />
     <Compile Include="DeleteMethodTests.cs" />
+    <Compile Include="DecodeMethodTests.cs" />
+    <Compile Include="DiagSumMethodTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

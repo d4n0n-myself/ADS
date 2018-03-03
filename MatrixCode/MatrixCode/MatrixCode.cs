@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace MatrixCode
@@ -33,6 +32,8 @@ namespace MatrixCode
             for (int i = 0; i < Capacity; i++)
                 for (int j = 0; j < Capacity; j++)
                 {
+                    if (originalMatrix[i] == null)
+                        originalMatrix[i] = new int[Capacity];
                     originalMatrix[i][j] = execElement.Value;
                     execElement = execElement.NextItem;
                 }
@@ -48,8 +49,10 @@ namespace MatrixCode
                 execElement = execElement.NextLineItem;
             for (int column = 0; column < j; column++)
                 execElement = execElement.NextItem;
-            
+
             execElement.Value = 0;
+
+
         }
 
         public int DiagSum()
@@ -57,8 +60,12 @@ namespace MatrixCode
             int sum = 0;
 
             foreach (var e in this)
-                if (e.Line == e.Column) sum += e.Value;
-            
+            {
+                if (e == null) break;
+                if (e.Line == e.Column || e.Line + e.Column == Capacity - 1)
+                    sum += e.Value;
+            }
+
             return sum;
         }
 
@@ -75,9 +82,9 @@ namespace MatrixCode
 
             var tempElement = First;
             var previousLineElement = First;
-            while (tempElement.Line * Capacity + tempElement.Column < i * Capacity + j - 1)
+            while (tempElement.Line * Capacity + tempElement.Column < i * Capacity + j)
             {
-                if (i > 0 && tempElement.Column == 0)
+                if (i > 0 && tempElement.Column == 0 && tempElement.NextLineItem==null)
                 {
                     previousLineElement.NextLineItem = tempElement;
                     previousLineElement = tempElement;
@@ -126,7 +133,16 @@ namespace MatrixCode
             var element = First;
             while (i * Capacity + j < Capacity * Capacity - 1)
             {
-                yield return element; element = element.NextItem;
+                yield return element;
+                element = element.NextItem;
+            }
+        }
+
+        public MatrixCode this[int index]
+        {
+            get
+            {
+                return this[index];
             }
         }
     }
