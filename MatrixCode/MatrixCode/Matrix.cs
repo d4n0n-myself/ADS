@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace MatrixTask
 {
-    public class Matrix : IMatrix
+    public class Matrix : IMatrix, IEnumerable
     {
         private MatrixElement _first;
         private readonly int _size;
@@ -48,7 +49,7 @@ namespace MatrixTask
         {
             var tempElement = _first;
 
-            while (tempElement.Line * _size + tempElement.Column < lineIndex * _size + columnIndex)
+            while (tempElement.Line * _size + tempElement.Column < lineIndex * _size + columnIndex - 1)
                 tempElement = tempElement.NextItem;
 
             tempElement.Value = 0;
@@ -57,12 +58,13 @@ namespace MatrixTask
         public int GetDiagonalElementsSum()
         {
             int sum = 0;
+            var tempElement = _first;
 
-            foreach (var e in this)
+            while(tempElement!=null)
             {
-                if (e == null) break;
-                if (e.Line == e.Column || e.Line + e.Column == _size - 1)
-                    sum += e.Value;
+                if (tempElement.Line == tempElement.Column || tempElement.Line + tempElement.Column == _size - 1)
+                    sum += tempElement.Value;
+                tempElement = tempElement.NextItem;
             }
 
             return sum;
@@ -71,7 +73,11 @@ namespace MatrixTask
         public void Insert(int lineIndex, int columnIndex, int value)
         {
             if (lineIndex > _size || columnIndex > _size) throw new InvalidOperationException("Element out of matrix range");
-            if (value == 0) return;
+            if (value == 0) 
+            {
+                //Delete(lineIndex,columnIndex);
+                return;
+            }
 
             if (_first == null)
             {
@@ -108,7 +114,26 @@ namespace MatrixTask
 
         public List<int> GetListOfMinimaInColumns()
         {
-            throw new NotImplementedException();
+            List<int> result = new List<int>();
+            int line = 0;
+            int currMin = Int16.MaxValue;
+            var tempElement = _first;
+
+            while(tempElement.NextItem!=null)
+            {
+                if (line < tempElement.Line)
+                {
+                    result.Add(currMin);
+                    currMin = Int16.MaxValue;
+                }
+
+                if (tempElement.Value < currMin)
+                    currMin = tempElement.Value;
+
+                tempElement = tempElement.NextItem;
+            }
+
+            return result;
         }
 
         public void Transpose()
@@ -135,7 +160,30 @@ namespace MatrixTask
             return true;
         }
 
-        public IEnumerator<MatrixElement> GetEnumerator()
+        private sealed class MatrixElement
+        {
+            public MatrixElement() : this(0, 0) { }
+
+            public MatrixElement(int line, int column)
+            {
+                Line = line;
+                Column = column;
+            }
+
+            public MatrixElement(int line, int column, int value)
+            {
+                Line = line;
+                Column = column;
+                Value = value;
+            }
+
+            public MatrixElement NextItem { get; set; }
+            public int Line { get; private set; }
+            public int Column { get; private set; }
+            public int Value { get; set; }
+        }
+
+        public IEnumerator GetEnumerator()
         {
             var element = _first;
 
@@ -148,17 +196,21 @@ namespace MatrixTask
             }
         }
 
-        public MatrixElement this[int lineIndex, int columnIndex]
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public int this[int lineIndex, int columnIndex]
         {
             get
             {
-                var tempElement = _first;
-                while (tempElement.Column < columnIndex && tempElement.Line < lineIndex && tempElement.NextItem != null)
-                    tempElement = tempElement.NextItem;
+                if (lineIndex > _size || columnIndex > _size)
+                    throw new ArgumentOutOfRangeException();
 
-                if (tempElement.Column == columnIndex && tempElement.Line == lineIndex)
-                    return tempElement;
-                throw new InvalidOperationException("Item's value == 0 or doesn't exist in matrix");
+                var tempElement = _first;
+                while (tempElement.Column < columnIndex && tempElement.Line < lineIndex || tempElement.NextItem == null)
+                    if (tempElement.NextItem != null)
+                        tempElement = tempElement.NextItem;
+
+                return tempElement.Value;
             }
         }
     }

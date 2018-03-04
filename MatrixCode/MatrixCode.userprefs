@@ -2,7 +2,8 @@
   <MonoDevelop.Ide.ItemProperties.MatrixCode PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="MatrixCode/Matrix.cs">
     <Files>
-      <File FileName="MatrixCode/Matrix.cs" Line="162" Column="14" />
+      <File FileName="MatrixCode/Matrix.cs" Line="54" Column="1" />
+      <File FileName="MatrixCode/DiagSumMethodTests.cs" Line="8" Column="15" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
@@ -12,10 +13,10 @@
               <Node name="MatrixTask" expanded="True">
                 <Node name="DecodeMethodTests" expanded="True" />
                 <Node name="DeleteMethodTests" expanded="True" />
-                <Node name="DiagSumMethodTests" expanded="True" />
-                <Node name="InsertMethodTests" expanded="True">
-                  <Node name="StandardCase" selected="True" />
+                <Node name="DiagSumMethodTests" expanded="True">
+                  <Node name="CheckDiagSum_InMatrixBy3_Equals3" selected="True" />
                 </Node>
+                <Node name="InsertMethodTests" expanded="True" />
               </Node>
             </Node>
           </Node>
@@ -32,8 +33,7 @@
       <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/DeleteMethodTests.cs" relfile="MatrixCode/DeleteMethodTests.cs" line="21" column="1" />
       <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/InsertMethodTests.cs" relfile="MatrixCode/InsertMethodTests.cs" line="29" column="1" />
       <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/DecodeMethodTests.cs" relfile="MatrixCode/DecodeMethodTests.cs" line="29" column="1" />
-      <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/Matrix.cs" relfile="MatrixCode/Matrix.cs" line="28" column="1" />
-      <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/Matrix.cs" relfile="MatrixCode/Matrix.cs" line="73" column="1" />
+      <Breakpoint file="/Users/d4n0n_myself/Documents/GitHub/ADS/MatrixCode/MatrixCode/InsertMethodTests.cs" relfile="MatrixCode/InsertMethodTests.cs" line="12" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
