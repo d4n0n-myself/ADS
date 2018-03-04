@@ -72,7 +72,8 @@ namespace MatrixTask
         {
             if (lineIndex == 0 && columnIndex == 0)
             {
-                _first = null;
+                if (_first.NextItem != null)
+                    _first = _first.NextItem;
                 return;
             }
             
