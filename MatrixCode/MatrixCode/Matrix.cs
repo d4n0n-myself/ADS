@@ -16,7 +16,30 @@ namespace MatrixTask
 
             for (int i = 0; i < matrix.Length; i++)
                 for (int j = 0; j < matrix[i].Length; j++)
-                    Insert(i, j, matrix[i][j]);
+                    InternalInsert(i, j, matrix[i][j]);
+        }
+
+        private void CheckForFirstElement(int lineIndex, int columnIndex, int value)
+        {
+            if (_first == null)
+            {
+                var startElement = new MatrixElement(lineIndex, columnIndex, value);
+                _first = startElement;
+                return;
+            }
+        }
+
+        private void InternalInsert(int lineIndex,int columnIndex,int value)
+        {
+            CheckForFirstElement(lineIndex,columnIndex,value);
+
+            var tempElement = _first;
+
+            while (tempElement.Line * _size + tempElement.Column < lineIndex * _size + columnIndex - 1)
+                if (tempElement.NextItem != null)
+                    tempElement = tempElement.NextItem;
+
+            tempElement.NextItem = new MatrixElement(lineIndex, columnIndex, value);
         }
 
         public void GetTwoColumnsSum(int column1, int column2)
@@ -47,12 +70,26 @@ namespace MatrixTask
 
         public void Delete(int lineIndex, int columnIndex)
         {
+            if (lineIndex == 0 && columnIndex == 0)
+            {
+                _first = null;
+                return;
+            }
+            
             var tempElement = _first;
 
             while (tempElement.Line * _size + tempElement.Column < lineIndex * _size + columnIndex - 1)
                 tempElement = tempElement.NextItem;
 
-            tempElement.Value = 0;
+            if (tempElement.NextItem != null)
+            {
+                MatrixElement newNextElement;
+                if (tempElement.NextItem.NextItem != null)
+                {
+                    newNextElement = tempElement.NextItem.NextItem;
+                    tempElement.NextItem = newNextElement;
+                }
+            }
         }
 
         public int GetDiagonalElementsSum()
@@ -70,44 +107,32 @@ namespace MatrixTask
             return sum;
         }
 
+        private void CheckArgument(int lineIndex, int columnIndex)
+        {
+            if (lineIndex > _size || lineIndex < 0) throw new ArgumentOutOfRangeException();
+            if (columnIndex > _size || columnIndex < 0) throw new ArgumentOutOfRangeException();
+        }
+
         public void Insert(int lineIndex, int columnIndex, int value)
         {
-            if (lineIndex > _size || columnIndex > _size) throw new InvalidOperationException("Element out of matrix range");
+            CheckArgument(lineIndex,columnIndex);
+
             if (value == 0) 
             {
-                //Delete(lineIndex,columnIndex);
+                Delete(lineIndex,columnIndex);
                 return;
             }
 
-            if (_first == null)
-            {
-                var startElement = new MatrixElement(lineIndex, columnIndex, value);
-                _first = startElement;
-                return;
-            }
+            CheckForFirstElement(lineIndex,columnIndex,value);
 
             var tempElement = _first;
-            int line = 0;
-            int column = 0;
 
-            while (Math.Max(tempElement.Line, line) * _size + Math.Max(tempElement.Column, column) < lineIndex * _size + columnIndex - 1)
-            {
+            while (tempElement.Line * _size + tempElement.Column < lineIndex * _size + columnIndex - 1)
                 if (tempElement.NextItem != null)
                     tempElement = tempElement.NextItem;
 
-                if (column < _size - 1)
-                    column++;
-                else
-                {
-                    column = 0;
-                    line++;
-                }
-            }
-
             if (tempElement.NextItem == null)
-            {
                 tempElement.NextItem = new MatrixElement(lineIndex, columnIndex, value);
-            }
             else
                 tempElement.NextItem.Value = value;
         }
@@ -202,14 +227,15 @@ namespace MatrixTask
         {
             get
             {
-                if (lineIndex > _size || columnIndex > _size)
-                    throw new ArgumentOutOfRangeException();
+                CheckArgument(lineIndex, columnIndex);
 
                 var tempElement = _first;
-                while (tempElement.Column < columnIndex && tempElement.Line < lineIndex || tempElement.NextItem == null)
+                while (tempElement.Line * _size + tempElement.Column < lineIndex * _size + columnIndex)
                     if (tempElement.NextItem != null)
                         tempElement = tempElement.NextItem;
 
+                if (tempElement.Line != lineIndex || tempElement.Column != columnIndex)
+                    throw new InvalidOperationException();
                 return tempElement.Value;
             }
         }
