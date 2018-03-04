@@ -6,9 +6,6 @@ namespace MatrixTask
 {
     public class Matrix : IMatrix, IEnumerable<int>
     {
-        private MatrixElement _first;
-        private readonly int _size;
-
         public Matrix(int[][] matrix)
         {
             if (matrix != null)
@@ -214,6 +211,9 @@ namespace MatrixTask
             public int Column { get; private set; }
             public int Value { get; set; }
         }
+
+        private MatrixElement _first;
+        private readonly int _size;
 
         private void CheckArgument(int lineIndex, int columnIndex)
         {
