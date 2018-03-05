@@ -6,14 +6,27 @@ namespace MatrixTask
 {
     public class Matrix : IMatrix, IEnumerable<int>
     {
+        public Matrix(int n)
+        {
+            if (n == 0)
+                throw new ArgumentNullException();
+            _size = n;
+        }
+
         public Matrix(int[][] matrix)
         {
-            if (matrix != null)
-                _size = Math.Max(matrix.Length, matrix[0].Length);
+            if (matrix == null)
+                throw new InvalidOperationException();
+            
+            _size = Math.Max(matrix.Length, matrix[0].Length);
 
             for (int i = 0; i < matrix.Length; i++)
+            {
+                if (matrix[i].Length != _size)
+                    throw new ArgumentException();
                 for (int j = 0; j < matrix[i].Length; j++)
                     InternalInsert(i, j, matrix[i][j]);
+            }
         }
 
         public void Delete(int lineIndex, int columnIndex)
@@ -41,10 +54,10 @@ namespace MatrixTask
             }
         }
 
-        public override bool Equals(object obj)
-        {
-            var expected = obj as Matrix;
+        public override bool Equals(object obj) => Equals(obj as Matrix);
 
+        public bool Equals(Matrix expected)
+        {
             var originalItem = _first;
             var expectedItem = expected._first;
             var operationsCount = _size * _size;
