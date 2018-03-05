@@ -6,24 +6,26 @@ namespace MatrixTask
 {
     public class Matrix : IMatrix, IEnumerable<int>
     {
-        public Matrix(int n)
+        public Matrix(int size)
         {
-            if (n == 0)
-                throw new ArgumentNullException();
-            _size = n;
+            if (size <= 0)
+                throw new ArgumentException("size");
+            _size = size;
         }
 
         public Matrix(int[][] matrix)
         {
             if (matrix == null)
-                throw new InvalidOperationException();
+                throw new ArgumentNullException("matrix");
+						if (matrix.Length == 0)
+                throw new ArgumentException("matrix");
             
-            _size = Math.Max(matrix.Length, matrix[0].Length);
+            _size = matrix.Length;
 
             for (int i = 0; i < matrix.Length; i++)
             {
                 if (matrix[i].Length != _size)
-                    throw new ArgumentException();
+                    throw new ArgumentException("matrix");
                 for (int j = 0; j < matrix[i].Length; j++)
                     InternalInsert(i, j, matrix[i][j]);
             }
