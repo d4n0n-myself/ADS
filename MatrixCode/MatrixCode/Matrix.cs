@@ -90,6 +90,7 @@ namespace MatrixTask
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
         public IEnumerator<int> GetEnumerator()
         {
             var element = _first;
@@ -182,7 +183,16 @@ namespace MatrixTask
 
         public void Transpose()
         {
-            throw new NotImplementedException();
+            var tempElement = _first;
+
+            while(tempElement.NextItem != null)
+            {
+                int exec = tempElement.Column;
+                tempElement.Column = tempElement.Line;
+                tempElement.Line = exec;
+
+                tempElement = tempElement.NextItem;
+            }
         }
 
         public int this[int lineIndex, int columnIndex]
@@ -197,7 +207,7 @@ namespace MatrixTask
                         tempElement = tempElement.NextItem;
 
                 if (tempElement.Line != lineIndex || tempElement.Column != columnIndex)
-                    throw new InvalidOperationException();
+                    return 0;
                 return tempElement.Value;
             }
         }
@@ -220,8 +230,8 @@ namespace MatrixTask
             }
 
             public MatrixElement NextItem { get; set; }
-            public int Line { get; private set; }
-            public int Column { get; private set; }
+            public int Line { get; set; }
+            public int Column { get; set; }
             public int Value { get; set; }
         }
 

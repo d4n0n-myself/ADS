@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{88EE173E-5D31-4C73-8F11-34897598384F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MatrixCode</RootNamespace>
+    <RootNamespace>MatrixTask</RootNamespace>
     <AssemblyName>MatrixCode</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
   </PropertyGroup>

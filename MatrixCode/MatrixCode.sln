@@ -1,7 +1,7 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixCode", "MatrixCode\MatrixCode.csproj", "{88EE173E-5D31-4C73-8F11-34897598384F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixTask", "MatrixCode\MatrixTask.csproj", "{88EE173E-5D31-4C73-8F11-34897598384F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
