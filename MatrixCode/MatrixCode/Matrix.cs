@@ -17,7 +17,7 @@ namespace MatrixTask
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
-						if (matrix.Length == 0)
+            if (matrix.Length == 0)
                 throw new ArgumentException("matrix");
             
             _size = matrix.Length;
@@ -56,20 +56,35 @@ namespace MatrixTask
             }
         }
 
-        public override bool Equals(object obj) => Equals(obj as Matrix);
-
-        public bool Equals(Matrix expected)
+        public override bool Equals(object obj)
         {
-            var originalItem = _first;
-            var expectedItem = expected._first;
-            var operationsCount = _size * _size;
+            if (obj == null)
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
+            if (GetType() != obj.GetType()) 
+                return false;
+            return Equals(obj as Matrix);
+        }
 
-            while (expectedItem != null && originalItem != null)
+        public bool Equals(Matrix other)
+        {
+            if (other == null)
+                return false;
+            if (ReferenceEquals(this, other))
+                return true;
+            if (GetType() != other.GetType()) 
+                return false;
+
+            var item = _first;
+            var otherItem = other._first;
+
+            while (otherItem != null && item != null)
             {
-                if (expectedItem.Value != originalItem.Value)
+                if (otherItem.Value != item.Value)
                     return false;
-                originalItem = originalItem.NextItem;
-                expectedItem = expectedItem.NextItem;
+                item = item.NextItem;
+                otherItem = otherItem.NextItem;
             }
 
             return true;
