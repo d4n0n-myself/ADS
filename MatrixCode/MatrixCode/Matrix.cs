@@ -54,25 +54,6 @@ namespace MatrixTask
             }
         }
 
-        public override bool Equals(object obj) => Equals(obj as Matrix);
-
-        public bool Equals(Matrix expected)
-        {
-            var originalItem = _first;
-            var expectedItem = expected._first;
-            var operationsCount = _size * _size;
-
-            while (expectedItem != null && originalItem != null)
-            {
-                if (expectedItem.Value != originalItem.Value)
-                    return false;
-                originalItem = originalItem.NextItem;
-                expectedItem = expectedItem.NextItem;
-            }
-
-            return true;
-        }
-
         public int GetDiagonalElementsSum()
         {
             int sum = 0;
