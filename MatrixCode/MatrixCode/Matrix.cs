@@ -55,41 +55,7 @@ namespace MatrixTask
                 }
             }
         }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-                return false;
-            if (ReferenceEquals(this, obj))
-                return true;
-            if (GetType() != obj.GetType()) 
-                return false;
-            return Equals(obj as Matrix);
-        }
-
-        public bool Equals(Matrix other)
-        {
-            if (other == null)
-                return false;
-            if (ReferenceEquals(this, other))
-                return true;
-            if (GetType() != other.GetType()) 
-                return false;
-
-            var item = _first;
-            var otherItem = other._first;
-
-            while (otherItem != null && item != null)
-            {
-                if (otherItem.Value != item.Value)
-                    return false;
-                item = item.NextItem;
-                otherItem = otherItem.NextItem;
-            }
-
-            return true;
-        }
-
+        
         public int GetDiagonalElementsSum()
         {
             int sum = 0;
