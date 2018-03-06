@@ -27,13 +27,7 @@ namespace MatrixTask
         private bool GetNewAnswer(Matrix original, int i, int j, int value, int[][] expected)
         {
             original.Insert(i, j, value);
-            var answer = original.GetMatrix();
-
-            for (int k = 0; k < answer.Length; k++)
-                for (int l = 0; l < answer[0].Length; l++)
-                    if (answer[k][l] != expected[k][l])
-                        return false;
-            return true;
+            return original.Equals(expected);
         }
     }
 }

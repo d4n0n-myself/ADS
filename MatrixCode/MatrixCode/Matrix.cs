@@ -55,6 +55,17 @@ namespace MatrixTask
                 }
             }
         }
+
+        public bool Equals(int[][] expected)
+        {
+            var answer = GetMatrix();
+
+            for (int k = 0; k < answer.Length; k++)
+                for (int l = 0; l < answer[0].Length; l++)
+                    if (answer[k][l] != expected[k][l])
+                        return false;
+            return true;
+        }
         
         public int GetDiagonalElementsSum()
         {
@@ -135,11 +146,6 @@ namespace MatrixTask
             return originalMatrix;
         }
 
-        public void GetTwoColumnsSum(int column1, int column2)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Insert(int lineIndex, int columnIndex, int value)
         {
             CheckArgument(lineIndex, columnIndex);
@@ -162,6 +168,46 @@ namespace MatrixTask
                 tempElement.NextItem = new MatrixElement(lineIndex, columnIndex, value);
             else
                 tempElement.NextItem.Value = value;
+        }
+
+        public void MakeTwoColumnsSum(int column1, int column2)
+        {
+            var tempElement = _first;
+
+            while (tempElement != null)
+            {
+                if(tempElement.Column != column1)
+                {
+                    tempElement = tempElement.NextItem;
+                    continue;
+                }
+
+                var newTempElement = _first;
+                while(newTempElement!=null)
+                {
+                    if (newTempElement.Column == column2 && newTempElement.Line == tempElement.Line)
+                    {
+                        tempElement.Value += newTempElement.Value;
+                        tempElement = tempElement.NextItem;
+                        break;
+                    }
+                    newTempElement = newTempElement.NextItem;
+                }
+                    
+            }
+        }
+
+        public void PrintMatrix()
+        {
+            var matrix = GetMatrix();
+
+            for (int i = 0; i < _size;i++)
+            {
+                for (int j = 0; j < _size; j++)
+                    Console.Write("{0} ",matrix[i][j]);
+                Console.Write("\n");
+            }
+
         }
 
         public void Transpose()

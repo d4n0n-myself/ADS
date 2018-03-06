@@ -24,15 +24,6 @@ namespace MatrixTask
             Assert.AreEqual(true,answer);
         }
 
-        private bool GetNewAnswer(Matrix matrix,int[][] expected)
-        {
-            var actualMatrix = matrix.GetMatrix();
-
-            for (int i = 0; i < actualMatrix.Length;i++)
-                for (int j = 0; j < actualMatrix[0].Length;j++)
-                    if (actualMatrix[i][j] != expected[i][j]) return false;
-
-            return true;
-        }
+        private bool GetNewAnswer(Matrix matrix, int[][] expected) => matrix.Equals(expected);
     }
 }

@@ -43,6 +43,7 @@
     <Compile Include="DeleteMethodTests.cs" />
     <Compile Include="DecodeMethodTests.cs" />
     <Compile Include="DiagSumMethodTests.cs" />
+    <Compile Include="MakeTwoColumnsMethodTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
