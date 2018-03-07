@@ -45,7 +45,7 @@
     <Compile Include="DiagSumMethodTests.cs" />
     <Compile Include="MakeTwoColumnsMethodTests.cs" />
     <Compile Include="TransposeMethodTests.cs" />
-    <Compile Include="ListOfMinimalInColumnsMethodTests.cs" />
+    <Compile Include="ListOfMinimaOfColumnsMethodTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
