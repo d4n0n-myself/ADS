@@ -6,7 +6,7 @@ namespace MatrixTask
     {
         void Delete(int i, int j);
         int GetDiagonalElementsSum();
-        List<int> GetListOfMinimaInColumns();
+        List<int> GetListOfMinimalInColumns();
         int[][] GetMatrix();
         void MakeTwoColumnsSum(int j1, int j2);
         void Insert(int i, int j, int value);
