@@ -68,7 +68,7 @@ namespace MatrixTask
             int sum = 0;
             foreach (var element in _elements)
                 if (element.Line == element.Column ||
-										element.Line + element.Column == _size - 1)
+                    element.Line + element.Column == _size - 1)
                     sum += element.Value;
             return sum;
         }
@@ -79,7 +79,7 @@ namespace MatrixTask
             for (int i = 0; i < _size; i++)
                 columnsMin.Add(int.MaxValue);
 
-						foreach (var element in _elements)
+            foreach (var element in _elements)
                 if (element.Value < columnsMin[element.Column])
                     columnsMin[element.Column] = element.Value;
             return columnsMin;
@@ -120,8 +120,8 @@ namespace MatrixTask
                         first.Value += second.Value;
                         break;
                     }
-						}
-						DeleteZeroes();
+            }
+            DeleteZeroes();
         }
 
         public void Transpose()
@@ -196,7 +196,7 @@ namespace MatrixTask
                     current.NextItem = next.NextItem;
                 else
                     current = current.NextItem;
-						}
+            }
         }
 
         private void InternalInsert(int lineIndex, int columnIndex, int value)
@@ -213,9 +213,9 @@ namespace MatrixTask
             }
 
             var newElement = new MatrixElement(lineIndex, columnIndex, value);
-						if (previous == null)
+            if (previous == null)
                 _first = newElement;
-						else
+            else
                 previous.NextItem = newElement;
         }
     }
