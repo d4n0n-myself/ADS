@@ -29,7 +29,7 @@ namespace MatrixTask
             Console.WriteLine("MakeTwoColumnsSum with column1 == 0 & column2 == 1");
             PrintResult(matrix);
 
-            var listOfMinimal = matrix.GetListOfMinimalInColumns();
+            var listOfMinimal = matrix.GetListOfMinimaOfColumns();
             Console.WriteLine("List of minimal elements in columns");
             Console.WriteLine(string.Join(" ", listOfMinimal) + "\n");
 

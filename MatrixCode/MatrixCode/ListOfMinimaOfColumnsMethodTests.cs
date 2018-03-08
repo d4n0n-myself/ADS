@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace MatrixTask
 {
     [TestFixture()]
-    public class ListOfMinimalInColumnsMethodTests
+    public class ListOfMinimaOfColumnsMethodTests
     {
         [Test()]
         public void CheckList_InMatrixBy2()
@@ -38,7 +38,7 @@ namespace MatrixTask
 
         private bool GetNewAnswer(Matrix actual, List<int> expected)
         {
-            var result = actual.GetListOfMinimalInColumns();
+            var result = actual.GetListOfMinimaOfColumns();
 
             for (int i = 0; i < expected.Count; i++)
                 if (result[i] != expected[i])

@@ -6,6 +6,8 @@ namespace MatrixTask
 {
     public class Matrix : IMatrix
     {
+        public int Size => _size;
+
         public Matrix(int size)
         {
             if (size <= 0)
@@ -26,41 +28,37 @@ namespace MatrixTask
             {
                 if (matrix[i].Length != _size)
                     throw new ArgumentException("matrix");
-                for (int j = 0; j < matrix[i].Length; j++)
+                for (int j = 0; j < _size; j++)
                     InternalInsert(i, j, matrix[i][j]);
             }
         }
 
         public void Delete(int lineIndex, int columnIndex)
         {
+            CheckArgument(lineIndex, columnIndex);
             if (lineIndex == _first.Line && columnIndex == _first.Column)
             {
                 _first = _first.NextItem;
                 return;
             }
-
-            var tempElement = _first;
-
-            while (tempElement.NextItem != null &&
-                   (tempElement.NextItem.Column != columnIndex || tempElement.NextItem.Line != lineIndex))
-                tempElement = tempElement.NextItem;
-
-            if (tempElement.NextItem != null)
+						
+            foreach (var element in _elements)
             {
-                MatrixElement newNextElement = null;
-                if (tempElement.NextItem.NextItem != null)
-                    newNextElement = tempElement.NextItem.NextItem;
-                tempElement.NextItem = newNextElement;
+                var next = element.NextItem;
+                if (next != null && next.Column == columnIndex && next.Line == lineIndex)
+                {
+                    element.NextItem = next.NextItem;
+                    return;
+                }
             }
         }
 
-        public bool Equals(int[][] expected)
+        public bool Equals(int[][] other)
         {
-            var answer = GetMatrix();
-
-            for (int k = 0; k < answer.Length; k++)
-                for (int l = 0; l < answer[0].Length; l++)
-                    if (answer[k][l] != expected[k][l])
+            var matrix = GetMatrix();
+            for (int i = 0; i < _size; i++)
+                for (int j = 0; j < _size; j++)
+                    if (matrix[i][j] != other[i][j])
                         return false;
             return true;
         }
@@ -68,120 +66,71 @@ namespace MatrixTask
         public int GetDiagonalElementsSum()
         {
             int sum = 0;
-            var tempElement = _first;
-
-            while (tempElement != null)
-            {
-                if (tempElement.Line == tempElement.Column ||
-                                        tempElement.Line + tempElement.Column == _size - 1)
-                    sum += tempElement.Value;
-                tempElement = tempElement.NextItem;
-            }
-
+            foreach (var element in _elements)
+                if (element.Line == element.Column ||
+                    element.Line + element.Column == _size - 1)
+                    sum += element.Value;
             return sum;
         }
 
-        public List<int> GetListOfMinimalInColumns()
+        public List<int> GetListOfMinimaOfColumns()
         {
-            List<int> result = new List<int>();
-            int[] columnsMin = new int[_size];
+            var columnsMin = new List<int>(_size);
             for (int i = 0; i < _size; i++)
-                columnsMin[i] = Int32.MaxValue;
-            var tempElement = _first;
+                columnsMin.Add(int.MaxValue);
 
-            while (tempElement != null)
-            {
-                if (tempElement.Value < columnsMin[tempElement.Column])
-                    columnsMin[tempElement.Column] = tempElement.Value;
-                tempElement = tempElement.NextItem;
-            }
-
-            result.AddRange(columnsMin);
-
-            return result;
+            foreach (var element in _elements)
+                if (element.Value < columnsMin[element.Column])
+                    columnsMin[element.Column] = element.Value;
+            return columnsMin;
         }
 
         public int[][] GetMatrix()
         {
-            int[][] originalMatrix = new int[_size][];
-            var execElement = _first;
-
+            var matrix = new int[_size][];
             for (int i = 0; i < _size; i++)
-                originalMatrix[i] = new int[_size];
+                matrix[i] = new int[_size];
 
             foreach (var item in _elements)
-                originalMatrix[item.Line][item.Column] = item.Value;
-
-            return originalMatrix;
+                matrix[item.Line][item.Column] = item.Value;
+            return matrix;
         }
 
         public void Insert(int lineIndex, int columnIndex, int value)
         {
-            CheckArgument(lineIndex, columnIndex);
-
             if (value == 0)
             {
                 Delete(lineIndex, columnIndex);
                 return;
             }
 
-            CheckForFirstElement(lineIndex, columnIndex, value);
-
-            MatrixElement previousElement = null;
-            var tempElement = _first;
-
-            foreach (var element in _elements)
-            {
-                if (element.Column == columnIndex && element.Line == lineIndex)
-                {
-                    element.Value = value;
-                    return;
-                }
-                previousElement = element;
-            }
-
-
-            previousElement.NextItem = new MatrixElement(lineIndex, columnIndex, value);
+            CheckArgument(lineIndex, columnIndex);
+            InternalInsert(lineIndex, columnIndex, value);
         }
 
         public void MakeTwoColumnsSum(int column1, int column2)
         {
-            var tempElement = _first;
-
-            while (tempElement != null)
+            foreach (var first in _elements)
             {
-                if (tempElement.Column != column1)
-                {
-                    tempElement = tempElement.NextItem;
+                if (first.Column != column1)
                     continue;
-                }
-
-                var newTempElement = _first;
-                while (newTempElement != null)
-                {
-                    if (newTempElement.Column == column2 && newTempElement.Line == tempElement.Line)
+                foreach (var second in _elements)
+                    if (second.Column == column2 && second.Line == first.Line)
                     {
-                        tempElement.Value += newTempElement.Value;
-                        tempElement = tempElement.NextItem;
+                        first.Value += second.Value;
                         break;
                     }
-                    newTempElement = newTempElement.NextItem;
-                }
-
             }
+            DeleteZeroes();
         }
 
         public void Transpose()
         {
-            var tempElement = _first;
-
-            while (tempElement != null)
+            foreach (var element in _elements)
             {
-                int exec = tempElement.Column;
-                tempElement.Column = tempElement.Line;
-                tempElement.Line = exec;
-
-                tempElement = tempElement.NextItem;
+                var temp = element.Column;
+                element.Column = element.Line;
+                element.Line = temp;
             }
         }
 
@@ -199,16 +148,8 @@ namespace MatrixTask
             }
         }
 
-        private sealed class MatrixElement
+        private class MatrixElement
         {
-            public MatrixElement() : this(0, 0) { }
-
-            public MatrixElement(int line, int column)
-            {
-                Line = line;
-                Column = column;
-            }
-
             public MatrixElement(int line, int column, int value)
             {
                 Line = line;
@@ -224,7 +165,15 @@ namespace MatrixTask
 
         private MatrixElement _first;
         private readonly int _size;
-        public int Size { get { return _size; } }
+
+        private IEnumerable<MatrixElement> _elements
+        {
+            get
+            {
+                for (var element = _first; element != null; element = element.NextItem)
+                    yield return element;
+            }
+        }
 
         private void CheckArgument(int lineIndex, int columnIndex)
         {
@@ -234,36 +183,40 @@ namespace MatrixTask
                 throw new ArgumentOutOfRangeException("columnIndex");
         }
 
-        private void CheckForFirstElement(int lineIndex, int columnIndex, int value)
+        private void DeleteZeroes()
         {
-            if (_first == null)
+            while (_first.Value == 0)
+                _first = _first.NextItem;
+
+            var current = _first;
+            while (current != null)
             {
-                var startElement = new MatrixElement(lineIndex, columnIndex, value);
-                _first = startElement;
-                return;
+                var next = current.NextItem;
+                if (next?.Value == 0)
+                    current.NextItem = next.NextItem;
+                else
+                    current = current.NextItem;
             }
         }
 
         private void InternalInsert(int lineIndex, int columnIndex, int value)
         {
-            CheckForFirstElement(lineIndex, columnIndex, value);
-
-            var tempElement = _first;
-
-            while (tempElement.Line * _size + tempElement.Column < lineIndex * _size + columnIndex - 1)
-                if (tempElement.NextItem != null)
-                    tempElement = tempElement.NextItem;
-
-            tempElement.NextItem = new MatrixElement(lineIndex, columnIndex, value);
-        }
-
-        private IEnumerable<MatrixElement> _elements
-        {
-            get
+            MatrixElement previous = null;
+            foreach (var element in _elements)
             {
-                for (var element = _first; element != null; element = element.NextItem)
-                    yield return element;
+                if (element.Column == columnIndex && element.Line == lineIndex)
+                {
+                    element.Value = value;
+                    return;
+                }
+                previous = element;
             }
+
+            var newElement = new MatrixElement(lineIndex, columnIndex, value);
+            if (previous == null)
+                _first = newElement;
+            else
+                previous.NextItem = newElement;
         }
     }
 }
