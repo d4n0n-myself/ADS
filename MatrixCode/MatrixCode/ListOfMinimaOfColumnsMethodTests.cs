@@ -38,7 +38,7 @@ namespace MatrixTask
 
         private bool GetNewAnswer(Matrix actual, List<int> expected)
         {
-            var result = actual.GetListOfMinimaOfColumns();
+            var result = actual.GetListOfMinimalOfColumns();
 
             for (int i = 0; i < expected.Count; i++)
                 if (result[i] != expected[i])

@@ -18,16 +18,16 @@ namespace MatrixTask
         public Matrix(int[][] matrix)
         {
             if (matrix == null)
-                throw new ArgumentNullException("matrix");
+                throw new ArgumentNullException(nameof(matrix));
             if (matrix.Length == 0)
-                throw new ArgumentException("matrix");
+                throw new ArgumentException(nameof(_size));
 
             _size = matrix.Length;
 
             for (int i = 0; i < matrix.Length; i++)
             {
                 if (matrix[i].Length != _size)
-                    throw new ArgumentException("matrix");
+                    throw new ArgumentException(nameof(_size));
                 for (int j = 0; j < _size; j++)
                     InternalInsert(i, j, matrix[i][j]);
             }
@@ -73,7 +73,7 @@ namespace MatrixTask
             return sum;
         }
 
-        public List<int> GetListOfMinimaOfColumns()
+        public List<int> GetListOfMinimalOfColumns()
         {
             var columnsMin = new List<int>(_size);
             for (int i = 0; i < _size; i++)
@@ -178,9 +178,9 @@ namespace MatrixTask
         private void CheckArgument(int lineIndex, int columnIndex)
         {
             if (lineIndex >= _size || lineIndex < 0)
-                throw new ArgumentOutOfRangeException("lineIndex");
+                throw new ArgumentOutOfRangeException(nameof(lineIndex));
             if (columnIndex >= _size || columnIndex < 0)
-                throw new ArgumentOutOfRangeException("columnIndex");
+                throw new ArgumentOutOfRangeException(nameof(columnIndex));
         }
 
         private void DeleteZeroes()
