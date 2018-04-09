@@ -15,8 +15,8 @@ namespace ControlTaskLINQ
             Console.WriteLine("---------");
             Console.WriteLine("Extension");
             IEnumerable<int> sequence = new int[] { 1, 2, 3, 4 };
-            sequence.ExtensionMethod(x => x % 2 == 0, x => x);
-            foreach (var item in sequence) Console.WriteLine(item);
+            var res = sequence.ExtensionMethod(x=>x%2==0,(x,y)=>Tuple.Create(x,y));
+            foreach (var item in res) Console.WriteLine(item);
         }
     }
 }

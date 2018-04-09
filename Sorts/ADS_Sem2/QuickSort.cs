@@ -10,12 +10,13 @@ namespace Sorts
 
         public static void RunTests()
         {
-            var midForStandartData = Array.ConvertAll(File.ReadAllText("data_10_4.txt").Split(' '), x => Convert.ToInt32(x));
-            var reversedData = Array.ConvertAll(File.ReadAllText("reversed_10_3.txt").Split(' '), x => Convert.ToInt32(x));
-            var halfSortedData = Array.ConvertAll(File.ReadAllText("halfsorted.txt").Split(' '), x => Convert.ToInt32(x));
-            var smallData = Array.ConvertAll(File.ReadAllText("data_10_2.txt").Split(' '), x => Convert.ToInt32(x));
-            var midData = Array.ConvertAll(File.ReadAllText("data_10_4.txt").Split(' '), x => Convert.ToInt32(x));
-            var bigData = Array.ConvertAll(File.ReadAllText("bigdata_10_7.txt").Split(' '), x => Convert.ToInt32(x));
+            var reversedData = GetData("reversed_10_3.txt");
+            var halfSortedData = GetData("halfsorted.txt");
+            var smallData = GetData("data_10_2.txt");
+            var midData = GetData("data_10_4.txt");
+            var bigData = GetData("bigdata_10_7.txt");
+            var randomData = Helpers.CreateRandomData();
+            var midForStandartData = GetData("data_10_4.txt");
 
             Stopwatch timer = new Stopwatch();
             Console.WriteLine("Time in ticks");
@@ -27,48 +28,32 @@ namespace Sorts
             Console.WriteLine();
             timer.Reset();
 
-            Console.WriteLine(nameof(smallData));
-            Measure(smallData);
-            Console.WriteLine(nameof(midData));
-            Measure(midData);
-            Console.WriteLine(nameof(bigData));
-            Measure(bigData);
-            Console.WriteLine(nameof(reversedData));
-            Measure(reversedData);
-            Console.WriteLine(nameof(halfSortedData));
-            Measure(halfSortedData);
+            CollectAllStats(smallData, midData, bigData, reversedData, halfSortedData, randomData);
         }
 
-        public static void Execute(this int[] sourceArray, int leftBorder, int rightBorder)
+        public static void Execute<T>(this T[] sourceArray, int leftBorder, int rightBorder) where T : IComparable
         {
             iterationsCount++;
-            rightBorder -= 1;
             int leftIndex = leftBorder;
             int rightIndex = rightBorder;
-            int middleElement = sourceArray[leftBorder + (rightBorder - leftBorder) / 2];
+            var middleElement = sourceArray[leftBorder + (rightBorder - leftBorder) / 2];
 
             while (leftIndex <= rightIndex)
             {
-                while (sourceArray[leftIndex] < middleElement)
-                {
+                while (sourceArray[leftIndex].CompareTo(middleElement) < 0)
                     leftIndex++;
-                    iterationsCount++;
-                }
 
-                while (sourceArray[rightIndex] > middleElement)
-                {
+                while (sourceArray[rightIndex].CompareTo(middleElement) > 0)
                     rightIndex--;
-                    iterationsCount++;
-                }
 
                 if (leftIndex <= rightIndex)
                 {
-                    int tempElement = sourceArray[leftIndex];
+                    var tempElement = sourceArray[leftIndex];
                     sourceArray[leftIndex] = sourceArray[rightIndex];
                     sourceArray[rightIndex] = tempElement;
                     leftIndex++;
                     rightIndex--;
-                    iterationsCount += 5;
+                    iterationsCount += 2;
                 }
             }
 
@@ -78,11 +63,11 @@ namespace Sorts
                 Execute(sourceArray, leftBorder, rightIndex);
         }
 
-        private static void Measure(int[] data)
+        private static void Measure<T>(T[] data) where T : IComparable
         {
             Stopwatch timer = new Stopwatch();
             timer.Start();
-            Execute(data, 0, data.Length);
+            Execute(data, 0, data.Length - 1);
             timer.Stop();
             Console.WriteLine("Time : " + timer.ElapsedTicks);
             Console.WriteLine("Iterations : " + iterationsCount);
@@ -91,5 +76,12 @@ namespace Sorts
             timer.Reset();
         }
 
+        private static void CollectAllStats<T>(params T[][] data) where T : IComparable
+        {
+            foreach (var e in data)
+                Helpers.CollectStats(e, Measure);
+        }
+
+        private static double[] GetData(string path) => Array.ConvertAll(File.ReadAllText(path).Split(' '), x => Convert.ToDouble(x));
     }
 }

@@ -6,8 +6,10 @@ namespace Sorts
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine("QuickSort");
             QuickSort.RunTests();
 
+            Console.WriteLine("SmoothSort");
             SmoothSort.RunTests();
         }
     }
