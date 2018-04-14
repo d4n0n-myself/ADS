@@ -43,6 +43,7 @@
     <Compile Include="SmoothSort.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="HeapSort.cs" />
+    <Compile Include="LinkedMergeSort.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

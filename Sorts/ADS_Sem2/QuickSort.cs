@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace Sorts
 {
@@ -10,28 +12,23 @@ namespace Sorts
 
         public static void RunTests()
         {
-            var reversedData = GetData("reversed_10_3.txt");
-            var halfSortedData = GetData("halfsorted.txt");
-            var smallData = GetData("data_10_2.txt");
-            var midData = GetData("data_10_4.txt");
-            var bigData = GetData("bigdata_10_7.txt");
-            var randomData = Helpers.CreateRandomData();
-            var midForStandartData = GetData("data_10_4.txt");
+            var randomData = Helpers.GetRandomData(new[] { 2, 4, 6 });
+            var allData = Helpers.GetData("reversed_10_3.txt", "halfsorted.txt", "data_10_2.txt", "data_10_4.txt", "bigdata_10_7.txt", "data_10_4.txt");
 
-            Stopwatch timer = new Stopwatch();
-            Console.WriteLine("Time in ticks");
+            //Stopwatch timer = new Stopwatch();
+            //Console.WriteLine("Time in ticks");
 
-            timer.Start();
-            Array.Sort(midForStandartData);
-            timer.Stop();
-            Console.WriteLine("Standard Sort: " + timer.ElapsedTicks);
-            Console.WriteLine();
-            timer.Reset();
+            //timer.Start();
+            //Array.Sort(midForStandartData);
+            //timer.Stop();
+            //Console.WriteLine("Standard Sort: " + timer.ElapsedTicks);
+            //Console.WriteLine();
+            //timer.Reset();
 
-            CollectAllStats(smallData, midData, bigData, reversedData, halfSortedData, randomData);
+            Helpers.CollectAllStats(Measure, allData.ToArray());
         }
 
-        public static void Execute<T>(this T[] sourceArray, int leftBorder, int rightBorder) where T : IComparable
+        public static void Sort<T>(this T[] sourceArray, int leftBorder, int rightBorder) where T : IComparable
         {
             iterationsCount++;
             int leftIndex = leftBorder;
@@ -58,16 +55,16 @@ namespace Sorts
             }
 
             if (leftIndex < rightBorder)
-                Execute(sourceArray, leftIndex, rightBorder);
+                Sort(sourceArray, leftIndex, rightBorder);
             if (leftBorder < rightIndex)
-                Execute(sourceArray, leftBorder, rightIndex);
+                Sort(sourceArray, leftBorder, rightIndex);
         }
 
         private static void Measure<T>(T[] data) where T : IComparable
         {
             Stopwatch timer = new Stopwatch();
             timer.Start();
-            Execute(data, 0, data.Length - 1);
+            Sort(data, 0, data.Length - 1);
             timer.Stop();
             Console.WriteLine("Time : " + timer.ElapsedTicks);
             Console.WriteLine("Iterations : " + iterationsCount);
@@ -75,13 +72,5 @@ namespace Sorts
             iterationsCount = 0;
             timer.Reset();
         }
-
-        private static void CollectAllStats<T>(params T[][] data) where T : IComparable
-        {
-            foreach (var e in data)
-                Helpers.CollectStats(e, Measure);
-        }
-
-        private static double[] GetData(string path) => Array.ConvertAll(File.ReadAllText(path).Split(' '), x => Convert.ToDouble(x));
     }
 }
