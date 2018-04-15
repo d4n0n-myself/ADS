@@ -30,13 +30,12 @@ namespace Sorts
         public static void CollectAllStats<T>(Action<T[]> measure, params T[][] data) where T : IComparable
         {
             foreach (var e in data)
-                Helpers.CollectStats(e, measure);
+                CollectStats(e, measure);
         }
 
-        public static void CollectAllStats<T>(Action<LinkedList<T>> measure, params LinkedList<T>[] data) where T : IComparable
+        public static void CollectAllStats(Action<MyLinkedList> measure, MyLinkedList data)
         {
-            foreach (var item in data)
-                Helpers.CollectStats(item, measure);
+            CollectStats(data, measure);
         }
 
         public static IEnumerable<double[]> GetData(params string[] paths)
@@ -48,18 +47,24 @@ namespace Sorts
         public static IEnumerable<double[]> GetRandomData(params int[] powers)
         {
             foreach (var power in powers)
-                yield return Helpers.CreateRandomData(power);
+                yield return CreateRandomData(power);
+        }
+
+        private static void CollectStats(MyLinkedList data, Action<MyLinkedList> action)
+        {
+            //Console.WriteLine(nameof(data));
+            action(data);
         }
 
         private static void CollectStats<T>(T[] data, Action<T[]> action) where T : IComparable
         {
-            Console.WriteLine(nameof(data));
+            //Console.WriteLine(nameof(data));
             action(data);
         }
 
         private static void CollectStats<T>(LinkedList<T> data, Action<LinkedList<T>> action) where T : IComparable
         {
-            Console.WriteLine(nameof(data));
+            //Console.WriteLine(nameof(data));
             action(data);
         }
     }

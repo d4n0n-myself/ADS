@@ -6,110 +6,200 @@ using System.Linq;
 
 namespace Sorts
 {
-    public static class LinkedMergeSort
+    public class Node
     {
-        public static int iterationsCount;
+        public int Value { get; set; }
+        public Node Next { get; set; }
 
-        public static void RunTests<T>(LinkedList<T> data) where T : IComparable
+        public Node()
+        {}
+
+        public Node(int value)
         {
-            Console.WriteLine("Time in ticks");
+            this.Value = value;
+        }
+    }
 
-            //Stopwatch timer = new Stopwatch();
-            //timer.Start();
-            //Array.Sort(midForStandartData);
-            //timer.Stop();
-            //Console.WriteLine("Standard Sort: " + timer.ElapsedTicks);
-            //Console.WriteLine();
-            //timer.Reset();
-
-            Helpers.CollectAllStats(Measure, data);
+    public class MyLinkedList
+    {
+        public MyLinkedList()
+        {
+            _first = null;
         }
 
-        public static void Print<T>(this LinkedList<T> list)
+        private Node _first;
+
+        public static int iterationsCount { get; private set; }
+        public Node First
         {
-            foreach (var e in list)
-                Console.Write(e + " ");
-        }
-
-        public static LinkedList<T> Sort<T>(this LinkedList<T> input) where T : IComparable
-        {
-            LinkedList<T> result = new LinkedList<T>();
-            LinkedList<T> left = new LinkedList<T>();
-            LinkedList<T> right = new LinkedList<T>();
-
-            if (input.Count <= 1)
-                return input;
-
-            int midpoint = input.Count / 2;
-
-            foreach (var e in input.Take(midpoint))
-                left.AddLast(e);
-            foreach (var e in input.Skip(midpoint))
-                right.AddLast(e);
-
-            left = Sort(left);
-            right = Sort(right);
-            result = Merge(left, right);
-
-            return result;
-        }
-
-        private static LinkedList<T> Merge<T>(LinkedList<T> left, LinkedList<T> right) where T : IComparable
-        {
-            var leftIndex = left.First;
-            var rightIndex = right.First;
-            var result = new LinkedList<T>();
-
-            while (leftIndex != null && rightIndex != null)
+            get
             {
-                if (leftIndex.Value.CompareTo(rightIndex.Value) < 0)
+                return _first;
+            }
+            set
+            {
+                _first = value;
+            }
+        }
+        public Node Last
+        {
+            get
+            {
+                Node node = _first;
+                while (node.Next != null) 
+                    node = node.Next; 
+                return node;
+            }
+        }
+
+        public static void RunTests()
+        {
+            var data = Array.ConvertAll(File.ReadAllText("rnd10^6.txt").Split(' '), x => Convert.ToInt32(x));
+            var linkedList = CreateLinkedList(data);
+            Helpers.CollectAllStats(Measure, linkedList);
+        }
+
+        public static MyLinkedList CreateLinkedList(int[] data)
+        {
+            var list = new MyLinkedList();
+            foreach (var e in data)
+                list.AddLast(e);
+
+            return list;
+        }
+
+        public static Node Sort(Node start)
+        {
+            iterationsCount++;
+            if (start == null || start.Next == null)
+                return start;
+
+            var midpoint = GetMiddle(start);
+            var afterMiddle = midpoint.Next;
+            midpoint.Next = null;
+
+            return Merge(Sort(start), Sort(afterMiddle));
+        }
+
+        public bool IsEmpty
+        {
+            get
+            {
+                return _first == null;
+            }
+        }
+
+        public void Print()
+        {
+            Node temp = _first;
+
+            while (temp != null)
+            {
+                Console.Write(temp.Value + " ");
+                temp = temp.Next;
+
+            }
+        }
+
+        public void RemoveFirst()
+        {
+            Node temp = _first;
+            if (_first != null)
+                _first = _first.Next;
+
+        }
+
+        public void InsertAfter(Node link)
+        {
+            if (link == null)
+                return;
+            
+            Node newLink = new Node();
+            link.Next = newLink;
+        }
+
+        public void AddLast(int value)
+        {
+            Node temp = _first;
+
+            if (temp == null)
+            {
+                temp = new Node(value);
+                _first = temp;
+                return;
+            }
+
+            while (temp.Next != null)
+                temp = temp.Next;
+
+            Node newNode = new Node(value);
+            temp.Next = newNode;
+        }
+
+        private static Node Merge(Node left, Node right)
+        {
+            iterationsCount++;
+
+            Node head = new Node();
+            Node pointer = head;
+
+            while (left != null && right != null)
+            {
+                if (left.Value < right.Value)
                 {
-                    result.AddLast(leftIndex.Value);
-                    leftIndex = leftIndex.Next;
+                    pointer.Next = left;
+                    pointer = left;
+                    left = left.Next;
+                    iterationsCount += 2;
                 }
                 else
                 {
-                    result.AddLast(rightIndex.Value);
-                    rightIndex = rightIndex.Next;
+                    pointer.Next = right;
+                    pointer = right;
+                    right = right.Next;
+                    iterationsCount += 2;
                 }
             }
 
-            while (leftIndex != null)
-            {
-                result.AddLast(leftIndex.Value);
-                leftIndex = leftIndex.Next;
-            }
+            if (right == null)
+                pointer.Next = left;
+            else
+                pointer.Next = right;
+            iterationsCount++;
 
-            while (rightIndex != null)
-            {
-                result.AddLast(rightIndex.Value);
-                rightIndex = rightIndex.Next;
-            }
-
-            return result;
+            head = head.Next;
+            return head;
         }
 
-        private static void Measure<T>(LinkedList<T> data) where T : IComparable
+        private static Node GetMiddle(Node head)
         {
-            //Stopwatch timer = new Stopwatch();
-            //timer.Start();
-            //Sort(data);
-            //timer.Stop();
-            //Console.WriteLine("Time : " + timer.ElapsedTicks);
-            //Console.WriteLine("Iterations : " + iterationsCount);
-            //Console.WriteLine();
-            //iterationsCount = 0;
-            //timer.Reset();
+            iterationsCount++;
+            if (head == null || head.Next == null)
+                return head;
 
-            Sort(data);
-            data.Print();
+            Node slow, fast;
+            slow = head;
+            fast = head.Next;
+
+            while (fast != null && fast.Next != null)
+            {
+                slow = slow.Next;
+                fast = fast.Next.Next;
+            }
+            return slow;
         }
 
-        private static void SwapValues<T>(LinkedListNode<T> leftIndex, LinkedListNode<T> rightIndex)
+        private static void Measure(MyLinkedList data)
         {
-            T temp = leftIndex.Value;
-            leftIndex.Value = rightIndex.Value;
-            rightIndex.Value = temp;
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+            data.First = Sort(data.First);
+            timer.Stop();
+            Console.WriteLine("Time : " + timer.ElapsedMilliseconds);
+            Console.WriteLine("Iterations : " + iterationsCount);
+            Console.WriteLine();
+            iterationsCount = 0;
+            timer.Reset();
         }
     }
 }

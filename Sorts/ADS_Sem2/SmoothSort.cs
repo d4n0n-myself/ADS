@@ -12,21 +12,8 @@ namespace Sorts
 
         public static void RunTests()
         {
-            //Stopwatch timer = new Stopwatch();
-            //Console.WriteLine("Time in ticks");
-
-            //timer.Start();
-            //Array.Sort(midForStandartData);
-            //timer.Stop();
-            //Console.WriteLine("Standard Sort: " + timer.ElapsedTicks);
-            //Console.WriteLine();
-            //timer.Reset();
-
-
-            var randomData = Helpers.GetRandomData(new[] { 2, 4, 6 });
             var allData = Helpers.GetData("reversed_10_3.txt", "halfsorted.txt", "data_10_2.txt", "data_10_4.txt", "bigdata_10_7.txt", "data_10_4.txt");
-
-            Helpers.CollectAllStats(Measure, allData.Concat(randomData).ToArray());
+            Helpers.CollectAllStats(Measure, allData.ToArray());
         }
 
         public static void Sort<T>(T[] sourceArray)
@@ -250,7 +237,7 @@ namespace Sorts
             timer.Start();
             Sort(data);
             timer.Stop();
-            Console.WriteLine("Time : " + timer.ElapsedTicks);
+            Console.WriteLine("Time : " + timer.ElapsedMilliseconds);
             Console.WriteLine("Iterations : " + iterationsCount);
             Console.WriteLine();
             iterationsCount = 0;
