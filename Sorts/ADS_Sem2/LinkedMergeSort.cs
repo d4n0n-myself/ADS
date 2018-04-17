@@ -54,10 +54,19 @@ namespace Sorts
 
         public static void RunTests()
         {
-            var data = Array.ConvertAll(File.ReadAllText("rnd10^6.txt").Split(' '), x => Convert.ToInt32(x));
-            var linkedList = CreateLinkedList(data);
-            Helpers.CollectAllStats(Measure, linkedList);
+            List<int[]> data = new List<int[]>();
+
+            string[] paths = { "afsd10^6.txt" };
+            foreach (var path in paths)
+                data.Add(Array.ConvertAll(File.ReadAllText(path).Split(' '), x => Convert.ToInt32(x)));
+
+            foreach (var e in data)
+            {
+                var linkedList = CreateLinkedList(e);
+                Helpers.CollectAllStats(Measure, linkedList);
+            }
         }
+
 
         public static MyLinkedList CreateLinkedList(int[] data)
         {
