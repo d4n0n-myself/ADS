@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace SkipList
 {
-    public class SkipList<T> : ISkipList<T> where T : IComparable
+    public class SkipList<T> : ISkipList<T>, IEnumerable<T> where T : IComparable
     {
         internal Header topHead;
         internal Header bottomHead;
@@ -24,7 +25,15 @@ namespace SkipList
                 return result;
             }
         }
+        public int ElementsCount
+        {
+            get { return topHead.LevelSize; }
+        }
 
+        public SkipList(IEnumerable<T> inputCollection)
+            : this(inputCollection.ToList())
+        { }
+        
         public SkipList(List<T> originalList)
         {
             var iterator = new SkipListNode(originalList[0]);
@@ -211,6 +220,22 @@ namespace SkipList
             }
 
             return searchedElement;
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            var iterator = topHead.Next;
+
+            while(iterator != null)
+            {
+                yield return iterator.Value;
+                iterator = iterator.Next;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         internal class Header
