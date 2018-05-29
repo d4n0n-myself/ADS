@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SkipList
 {
-    public class SkipList<T> : ISkipList<T>, IEnumerable<T> where T : IComparable
+    public class SkipList<T> : ISkipList<T> where T : IComparable
     {
         internal Header topHead;
         internal Header bottomHead;
@@ -122,29 +122,31 @@ namespace SkipList
 
             if (firstChanged)
             {
+				var rnd = new Random();
                 var header = bottomHead.Above;
-                while (header != null)
+				while (header != null && rnd.NextDouble() > 0.5)
                 {
                     var newFirst = new SkipListNode(value);
                     newFirst.Next = header.Next;
                     header.Next.Previous = newFirst;
                     header.Next = newFirst;
+					header = header.Above;
                 }
             }
             else
             {
                 var rnd = new Random();
                 var previous = iterator.Next;
-
-                if (iterator.Above == null)
-                    while (iterator != null && iterator.Above == null)
-                        iterator = iterator.Previous;
-
-                iterator = iterator.Above;
-
+                
                 while (iterator != null)
                 {
-                    if (rnd.NextDouble() > 0)
+					if (iterator.Above == null)
+                        while (iterator != null && iterator.Above == null)
+                            iterator = iterator.Previous;
+
+                    iterator = iterator.Above;
+
+                    if (rnd.NextDouble() > 0.5)
                     {
                         var newElement = new SkipListNode(value);
                         newElement.Next = iterator.Next;
@@ -179,15 +181,20 @@ namespace SkipList
 
             while (elementToDeletion != null)
             {
-                if (elementToDeletion.Previous == null) // bc of implementation w/ headers
-                {
-                    var header = topHead;
-                    while (header.Next != elementToDeletion)
-                        header = header.Below;
-                    header.Next = header.Next.Next;
-                }
-                else
-                    elementToDeletion.Previous.Next = elementToDeletion.Next;
+				if (elementToDeletion.Previous == null) // bc of implementation w/ headers
+				{
+					var header = topHead;
+					while (header.Next != elementToDeletion)
+						header = header.Below;
+					header.Next.Next.Previous = null;
+					header.Next = header.Next.Next;
+				}
+				else
+				{
+					if (elementToDeletion.Next != null)
+					    elementToDeletion.Next.Previous = elementToDeletion.Previous;
+					elementToDeletion.Previous.Next = elementToDeletion.Next;
+				}
                 elementToDeletion = elementToDeletion.Below;
             }
         }
@@ -215,29 +222,13 @@ namespace SkipList
                 {
                     if (searchedElement.Below != null)
                         searchedElement = searchedElement.Below;
-                    else throw new ArgumentException();
+                    else throw new ArgumentException("There is no such element in this collection");
                 }
             }
 
             return searchedElement;
         }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            var iterator = topHead.Next;
-
-            while(iterator != null)
-            {
-                yield return iterator.Value;
-                iterator = iterator.Next;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
+              
         internal class Header
         {
             public SkipListNode Next;
